@@ -1,0 +1,17 @@
+total 13
+input 0                                  # input
+input 1                                  # one-input
+nizkinput 2                              # input
+nizkinput 3                              # input (unused)
+nizkinput 4                              # input
+nizkinput 5                              # input (unused)
+const-mul-0 in 1 <1> out 1 <6>           # zero
+add in 2 <0 2> out 1 <7>                 # ArithBusReq.AddReq(DFG.Input,DFG.NIZKInput)
+const-mul-0 in 1 <1> out 1 <8>           # constant 0
+add in 2 <0 4> out 1 <9>                 # ArithBusReq.AddReq(DFG.Input,DFG.NIZKInput)
+mul in 2 <1 7> out 1 <10>                # output-cast
+output 10                                # 
+mul in 2 <1 8> out 1 <11>                # output-cast
+output 11                                # 
+mul in 2 <1 9> out 1 <12>                # output-cast
+output 12                                # 
