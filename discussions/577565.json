@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "1341300",
+    "ThreadId": "577565",
+    "Html": "On running make in the external-code folder of ccompiler, a 404 error pops up when pycparser download is requested. How can I fix this? Can someone update the link in the makefile?<br />\n",
+    "PostedDate": "2015-01-12T18:33:19.603-08:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1341632",
+    "ThreadId": "577565",
+    "Html": "It looks like the pycparser project migrated to github.  You can use:\r<br />\n<br />\nwget --no-check-certificate <a href=\"https://pypi.python.org/packages/source/p/pycparser/pycparser-2.08.tar.gz\" rel=\"nofollow\">https://pypi.python.org/packages/source/p/pycparser/pycparser-2.08.tar.gz</a>\r<br />\n<br />\ninstead.  I'll update the makefile when I get a moment.<br />\n",
+    "PostedDate": "2015-01-13T18:22:02.373-08:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "1348726",
+    "ThreadId": "579394",
+    "Html": "Hi,\r<br />\n<br />\nI've been trying to follow both the notes/discussions on here and the README file but am relatively new to programming so am struggling to get my head around how to compile a circuit from a C program using the vercomp.py program. Can anyone advise me on how to do this?\r<br />\n<br />\nAlso I've noticed in the README file it states &quot;Running &quot;make -f make.matrix&quot; should produce a build directory containing circuits and executables.&quot; I have done this and obtained the build directory but is it supposed to contain anything in it or do I have to create my own input files within this directory?\r<br />\n<br />\nThanks<br />\n",
+    "PostedDate": "2015-02-03T12:02:07.763-08:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1350408",
+    "ThreadId": "579394",
+    "Html": "Hi,\r<br />\n<br />\nAs noted in the README file, you need to edit the settings in common/App.py to select the (existing) applications you'd like to include.  That's probably a good place to start, but once you have applications of your own, you'll want to follow that template for adding your own apps.  After you've edited common/App.py, running ../src/build-test-matrix.py will create the corresponding make file, and then you can use &quot;make -f make.matrix&quot;.  You can look inside the relevant makefiles (e.g., make.matrix and make.in) to see which options you can build.  You'll also see some examples that run the various Pinocchio tools; you may want to experiment with invoking those directly, if you want to better understand how they interact and what they take as input and produce as output.\r<br />\n<br />\n-Bryan<br />\n",
+    "PostedDate": "2015-02-09T14:26:55.703-08:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

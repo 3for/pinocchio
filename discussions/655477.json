@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "1475972",
+    "ThreadId": "655477",
+    "Html": "I am a Master student and I am currently carrying out a research on verification of outsourced computation. I have gone through the Pinocchio paper which is quite difficult to understand. I also tried downloading the Pinocchio program and tried to run it on a windows machine but I have not been able to get it working.\r<br />\n<br />\nPlease I am interested in knowing how Pinocchio transforms a simple program to a verifiable one, for example if I write a simple binary search or find program in C and I need to make it verifiable, how does the software modify the code and which extra parameters will be added to make it verifiable? I will be very glad if you can assist me on this.\r<br />\n<br />\nI am particularly interested in how it transforms this program to make it verifiable:<br />\n<h1>include&lt;stdio.h&gt;</h1>\n<h1>include&lt;stdlib.h&gt;</h1>\n<h1>include&lt;string.h&gt;</h1>\n//Our main function.\r<br />\nint main(int argc, char *argv[]) {<br />\n<pre><code>    int result, errno;\n\n    if(argc &lt; 3 || argc &gt; 3) {\n            Usage(argv[0]);\n            exit(1);\n    }\n\n    //Use system(&quot;cls&quot;) on windows\n    //Use system(&quot;clear&quot;) on Unix/Linux\n    system(&quot;cls&quot;);\n\n    result = Search_in_File(argv[1], argv[2]);\n    if(result == -1) {\n            perror(&quot;Error&quot;);\n            printf(&quot;Error number = %d\\n&quot;, errno);\n            exit(1);\n    }\n    return(0);</code></pre>\n\n}     <br />\n\r<br />\nvoid Usage(char *filename) {<br />\n<pre><code>    printf(&quot;Usage: %s &lt;file&gt; &lt;string&gt;\\n&quot;, filename);</code></pre>\n\n}     <br />\nUsage(argv[0]);\r<br />\nint Search_in_File(char *fname, char *str) {<br />\n<pre><code>    FILE *fp;\n    int line_num = 1;\n    int find_result = 0;\n    char temp[512];\n\n    //gcc users\n    //if((fp = fopen(fname, &quot;r&quot;)) == NULL) {\n    //      return(-1);\n    //}\n\n    }       \n\n    while(fgets(temp, 512, fp) != NULL) {\n            if((strstr(temp, str)) != NULL) {\n                    printf(&quot;A match found on line: %d\\n&quot;, line_num);</code></pre>\n\n}<br />\n<pre><code>            line_num++;\n    }\n\n    if(find_result == 0) {\n            printf(&quot;\\nSorry, couldn't find a match.\\n&quot;);\n    }\n\n    //Close the file if still open.\n    if(fp) {\n            fclose(fp);\n    }\n    return(0);</code></pre>\n\n}<br />\n",
+    "PostedDate": "2016-06-13T02:10:28.05-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1476391",
+    "ThreadId": "655477",
+    "Html": "Hi Kolade,\r<br />\n<br />\nThanks for your interest in our work.  The Pinocchio paper should provide information about the high-level ideas and the implementation.   You may want to read the earlier Gennaro et al. EuroCrypt paper (and/or the corresponding tech report on  ePrint) for more on the theoretical underpinnings.  For the implementation,  I would suggest looking through the README, the Wiki, and the code itself to get a better understanding of what’s happening.  You can also look at the intermediate files generated from small examples to better understand what’s going on.\r<br />\n<br />\n-Bryan<br />\n",
+    "PostedDate": "2016-06-15T17:55:06.687-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

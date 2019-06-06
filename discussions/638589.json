@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "1427076",
+    "ThreadId": "638589",
+    "Html": "I am currently doing my master's thesis in Computer Science on Verifiable Computation, and am very enthusiastic about Pinocchio, possibly going to attempt applying it in a specific domain.\r<br />\n<br />\nI noticed in the help manual of the EXE that it is possible to run it in both client and server mode.\r<br />\n<br />\nI tried opening 2 separate consoles, running these commands:\r<br />\n<strong>1.</strong> pinocchio-v0.4.exe --qap --dv --file circuit.c.p.arith --input input.txt --output output.txt --mem 4 --server\r<br />\n<strong>2.</strong> pinocchio-v0.4.exe --qap --dv --file circuit.c.p.arith --input input.txt --output output.txt --mem 4 --client\r<br />\n<br />\nHowever, the server hangs after printing 'Waiting for a client...', and the client terminates and prints 'Unable to connect to server!'\r<br />\n<br />\nHow do I manage enabling these two to communicate?\r<br />\n<br />\nThank you very much in advance.<br />\n",
+    "PostedDate": "2015-05-22T05:48:08.997-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1427198",
+    "ThreadId": "638589",
+    "Html": "Thanks for your interest in the project!  I'm sorry to say, but it looks like some hard-coded IP addresses crept into the code, which is why it wasn't working for you.  I just checked in a fix that lets you specify an IP address for the server as an argument for the client.  Hopefully that should work better for you.  As a disclaimer, the networking code has only been lightly tested, so I can't guarantee good (or correct) performance.<br />\n\r<br />\nYou may also be interested in our Geppetto project, which we should be uploading to Codeplex in the next few days.  It features a larger, more robust compiler and some new improvements to the underlying cryptography.\r<br />\n<br />\nCheers,\r<br />\n-Bryan<br />\n",
+    "PostedDate": "2015-05-22T15:26:43.197-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1427587",
+    "ThreadId": "638589",
+    "Html": "Dear Bryan,\r<br />\n<br />\nThank you very much for your reply and the update of the code. I am going to run it. I am also looking forward to Geppetto!<br />\n",
+    "PostedDate": "2015-05-26T02:18:44.517-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

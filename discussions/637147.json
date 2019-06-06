@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "1423608",
+    "ThreadId": "637147",
+    "Html": "The paper says a worker, in order to include h(s) into the proof, has to interpolate p(x), and then divide it with t(x) to get h(x), then calculate h(s).\r<br />\n<br />\nAs a worker, I would calculate p(s), then t(s), and let h(s)=p(s)*(t(s))^(-1). Suppose this h(s) is good, this approach is much less complicated, compared to the approach described in the paper, which dictates at least O(n (log(n))^2) complexity.\r<br />\n<br />\nI am wondering why this simpler approach to get h(s) for the worker does not work. Any help is appreciated.<br />\n",
+    "PostedDate": "2015-05-06T11:47:11.39-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1424065",
+    "ThreadId": "637147",
+    "Html": "I'm not sure I understand your proposal.  The worker doesn't know s, so he can only calculate p(x), h(x), etc.  Your multiplication by t(x)^{-1} is the division mentioned in the paper (note that the inverse of t(x) can be cached).  The interpolation is necessary because the polynomials that constitute p(x) are kept in point-value form; i.e., they're represented in terms of their values at the root values of t(x) chosen by the protocol.  If you choose the root values cleverly, the interpolation only requires O(N log N).<br />\n",
+    "PostedDate": "2015-05-07T18:24:07.17-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1424441",
+    "ThreadId": "637147",
+    "Html": "Thank you for taking time to respond to me! I had this question since I did not really understand the problem (even now, I still have not fully understood it). Now, I know the worker does NOT know s, t(s), vk(s), wk(s), yk(s). I thought the worker knows all these terms, then the worker can calculate p(s) easily, and find the inverse of t(s) (a number) easily, then the worker can get h(s) easily.\r<br />\n<br />\nNow, I know the worker knows only the public evaluation key and public verification key. That's to say, the worker knows only g^s, g^t(s), etc. Then, I am wondering how hard it is to find the g^h(s) in the equation [e(g,g)]^(r_y*p(s))=e(g_y^t(s),g^h(s)).\r<br />\n<br />\nFurthermore, you stir up a new question - About interpolation.\r<br />\n<br />\nSince the workers knows t(x),vk(x),wk(x),yk(x), then the worker knows p(x). There is not need to interpolate p(x). Do you mean interpolation for vk(x), wk(x), yk(x)? \r<br />\n<br />\nThanks again.<br />\n",
+    "PostedDate": "2015-05-09T22:25:35.7-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

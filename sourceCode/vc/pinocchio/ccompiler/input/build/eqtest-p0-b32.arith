@@ -1,0 +1,12 @@
+total 11
+input 0                                  # input
+input 1                                  # input
+input 2                                  # one-input
+const-mul-0 in 1 <2> out 1 <3>           # zero
+const-mul-neg-1 in 1 <1> out 1 <4>       # zerop subtract negative
+add in 2 <0 4> out 1 <5>                 # zerop diff
+zerop in 1 <5> out 2 <7 6>               # zerop <ArithBuses.ArithmeticInputBus instance at 0x7ff566a263f8>
+const-mul-neg-1 in 1 <6> out 1 <8>       # zerop inverse
+add in 2 <2 8> out 1 <9>                 # zerop result
+mul in 2 <2 9> out 1 <10>                # output-cast
+output 10                                # 

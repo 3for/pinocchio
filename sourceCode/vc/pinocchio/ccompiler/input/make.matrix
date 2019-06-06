@@ -1,0 +1,27 @@
+PYTHON=python
+
+matrix-all: build build/eqtest-p0-b32 build/eqtest-p0-b32.arith
+
+# App eqtest
+#   Param 0
+#     Bitwidth 32
+build/eqtest-p0-b32-native.o: eqtest.c
+	gcc -g -I../../common -Ibuild/ -c -o build/eqtest-p0-b32-native.o eqtest.c -DQSP_TEST -DPARAM=0 -DBIT_WIDTH=32 -m32
+
+build/eqtest-p0-b32-test.o: eqtest-test.c
+	gcc -g -I../../common -Ibuild/ -c -o build/eqtest-p0-b32-test.o eqtest-test.c -DQSP_TEST -DPARAM=0 -DBIT_WIDTH=32 -m32
+
+build/qsp-test-eqtest-p0.o: qsp-test.c
+	gcc -g -I../../common -Ibuild/ -c -o build/qsp-test-eqtest-p0.o qsp-test.c -DPARAM=0 -m32
+
+build/eqtest-p0-b32: build/eqtest-p0-b32-native.o \
+	build/eqtest-p0-b32-test.o \
+	build/qsp-test-eqtest-p0.o \
+	build/wire-io.o \
+	build/print-matrix.o
+	gcc -g -I../../common -Ibuild/ -o build/eqtest-p0-b32 build/eqtest-p0-b32-native.o build/eqtest-p0-b32-test.o build/qsp-test-eqtest-p0.o build/wire-io.o build/print-matrix.o -m32
+
+build/eqtest-p0-b32.arith: eqtest.c
+	$(PYTHON) ../src/vercomp.py eqtest.c --arith build/eqtest-p0-b32.arith --bit-width 32 --cpparg _Ibuild/ _DPARAM=0 _DBIT_WIDTH=32
+
+include make.in

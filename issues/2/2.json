@@ -1,0 +1,39 @@
+{
+  "WorkItem": {
+    "AffectedComponent": {
+      "Name": "",
+      "DisplayName": ""
+    },
+    "ClosedComment": "",
+    "ClosedDate": null,
+    "CommentCount": 0,
+    "Custom": null,
+    "Description": "Trying\r\n\r\n```\r\npython ../src/drawcirc.py --arith build/two-matrix-p0-b32.arith --out output.pdf\r\n```\r\n\r\nI get\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"../src/drawcirc.py\", line 263, in <module>\r\n    main()\r\n  File \"../src/drawcirc.py\", line 256, in main\r\n    circ.parse(args.arith_file,args.wire_file)\r\n  File \"../src/drawcirc.py\", line 159, in parse\r\n    self.parse_line(noncomment)\r\n  File \"../src/drawcirc.py\", line 151, in parse_line\r\n    self.sub_parse(verb, in_a, out_a)\r\n  File \"../src/drawcirc.py\", line 132, in sub_parse\r\n    assert False\r\n```",
+    "LastUpdatedDate": "2017-07-13T06:35:18.323-07:00",
+    "PlannedForRelease": "",
+    "ReleaseVisibleToPublic": false,
+    "Priority": {
+      "Name": "Unassigned",
+      "Severity": 0,
+      "Id": 0
+    },
+    "ProjectName": "vc",
+    "ReportedDate": "2017-07-13T06:35:18.323-07:00",
+    "Status": {
+      "Name": "Proposed",
+      "Id": 1
+    },
+    "ReasonClosed": {
+      "Name": "Unassigned"
+    },
+    "Summary": "drawcirc/sub_parse doesn't handle verb zerop",
+    "Type": {
+      "Name": "Unassigned",
+      "Id": 5
+    },
+    "VoteCount": 1,
+    "Id": 2
+  },
+  "FileAttachments": [],
+  "Comments": []
+}

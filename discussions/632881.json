@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "1417764",
+    "ThreadId": "632881",
+    "Html": "The paper is rather difficult for me. \r<br />\nFor the Figure 2, I guess v1(x) should be (r6-r5)^(-1)*(x-r5), and the rest can be found similarly.\r<br />\nIs this right? If yes, then how do we determine r5 and r6 when we generate the keys (evaluation and verification). Since we will have to calculate v1(s) etc.\r<br />\n<br />\nThanks for help me to understand it!<br />\n",
+    "PostedDate": "2015-04-24T23:51:19.47-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1420639",
+    "ThreadId": "632881",
+    "Html": "Yes, v_1(x) = L_6(x), where L_6 is the Lagrange polynomial that's 1 for r_6 and 0 for all other r.  The protocol doesn't specify any constraints on the choice of root values (aside from distinctness), so you can choose them to optimize the efficiency of other steps in the protocol.  For example, you might want to set them to be in an arithmetic or geometric series.<br />\n",
+    "PostedDate": "2015-04-28T11:20:20.157-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": "2015-05-06T11:34:42.323-07:00"
+  }
+]

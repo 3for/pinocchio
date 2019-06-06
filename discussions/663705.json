@@ -1,0 +1,10 @@
+[
+  {
+    "Id": "1497922",
+    "ThreadId": "663705",
+    "Html": "File qap/Types.h contains the following include directives:<br />\n<h1>include &lt;msbignum.h&gt;</h1>\n<h1>include &lt;field.h&gt;</h1>\n<h1>include &quot;pfc_bn.h&quot;</h1>\n<h1>include &quot;modfft.h&quot;</h1>\nI had a look online and msbignum is nowhere. How to include these libraries if i want to compile the qap module?\r<br />\n<br />\nThanks.<br />\n",
+    "PostedDate": "2017-09-04T06:52:12.49-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

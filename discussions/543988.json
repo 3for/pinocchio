@@ -1,0 +1,50 @@
+[
+  {
+    "Id": "1240355",
+    "ThreadId": "543988",
+    "Html": "Hi everyone\r<br />\n<br />\nCan anybody advise about the usage of the <code>--verify</code> option? I am able to successfully use <code>--genkeys</code> and <code>--dowork</code> like so:<br />\n<pre><code>pinocchio-v0.4.exe --qap --dv --file circuit.arith --mem 4 --input input.txt --output output.txt --keys key --genkeys</code></pre>\n\nand same thing with <code>--dowork</code>, but <code>--verify</code> causes a segfault (the same happens with either <code>--pv</code> or <code>--dv</code>). I am thinking perhaps it might be due to wrong parameters, since for example omitting <code>--mem</code> also causes a segault, for all operations.\r<br />\n<br />\nThanks<br />\n",
+    "PostedDate": "2014-05-01T12:11:45.153-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1241799",
+    "ThreadId": "543988",
+    "Html": "If you have a small circuit file and the commands you're using, I can give it a try on my side.  I should warn you though that, as it mentions in the README file, the --genkeys, --dowork, and --verify flags have received very light testing, so it's quite possible bugs still lurk there.<br />\n",
+    "PostedDate": "2014-05-05T15:44:56.607-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1241907",
+    "ThreadId": "543988",
+    "Html": "Thanks for the answer. It happens with every circuit I've tried, but here's a small example (example circuit from the paper):\r<br />\n<br />\nCircuit <code>example.c.arith</code><br />\n<pre><code>total 10\ninput 0                                  # input\ninput 1                                  # input\ninput 2                                  # input\ninput 3                                  # input\ninput 4                                  # one-input\nconst-mul-0 in 1 &lt;4&gt; out 1 &lt;5&gt;           # zero\nadd in 2 &lt;0 1&gt; out 1 &lt;6&gt;                 # ArithBusReq.AddReq(DFG.Input,DFG.Input)\nmul in 2 &lt;6 2&gt; out 1 &lt;7&gt;                 # multiply\nmul in 2 &lt;7 3&gt; out 1 &lt;8&gt;                 # multiply\nmul in 2 &lt;4 8&gt; out 1 &lt;9&gt;                 # output-cast\noutput 9         </code></pre>\n\nand the input file <code>example.input.txt</code><br />\n<pre><code>0 1\n1 2\n2 3\n3 4\n4 1</code></pre>\n\nI run it like so:<br />\n<pre><code>pinocchio-v0.4.exe --qap --pv --file example.c.arith --mem 4 --input example.input.txt --output example.output.txt --keys examplekey --genkeys</code></pre>\n\nThis correctly generates the keys. Then running the same command with <code>--dowork</code> instead of <code>--genkeys</code> correctly generates the proof and output file, and running it with <code>--verify</code> instead of <code>--genkeys</code> segfaults. It is indeed probably a bug, just wanted to make sure I was not overlooking something.<br />\n",
+    "PostedDate": "2014-05-06T00:53:18.027-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1244479",
+    "ThreadId": "543988",
+    "Html": "There was a bug in the way --verify was handling the IO.  It should be fixed in the latest version (fdf7c4fcf2b3).  Sorry, this interface to the code hasn't received much attention.<br />\n",
+    "PostedDate": "2014-05-12T10:44:47.7-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1244694",
+    "ThreadId": "543988",
+    "Html": "Works like a charm. Thanks!<br />\n",
+    "PostedDate": "2014-05-13T00:36:09.343-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1489617",
+    "ThreadId": "543988",
+    "Html": "Hi,\r<br />\n<br />\nI am also trying to run the code that is discussed here. I am working in Ubuntu and I run the following command:\r<br />\n./pinocchio-v0.4.exe --qap --pv --file example.c.arith --mem 4 --input example.input.txt --output example.output.txt --keys examplekey --genkeys\r<br />\n<br />\nHowever, I receive the following error:\r<br />\nbash: ./pinocchio-v0.4.exe: cannot execute binary file: Exec format error\r<br />\n<br />\nHow can I solve this error?\r<br />\n<br />\nThanks<br />\n",
+    "PostedDate": "2016-12-10T13:02:06.353-08:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

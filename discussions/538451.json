@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "1220812",
+    "ThreadId": "538451",
+    "Html": "is possible give me an example using the executable file?\r<br />\n<br />\nI try :\r<br />\n .\\pinocchio-v0.4.exe --qsp --pv\r<br />\nWarning: Could not open config file: config.txt.  Continuing based on command line only.\r<br />\nUsing the NEW crypto protocol!\r<br />\nEnable USE_OLD_PROTO to run QSP-based tests\r<br />\n<br />\nDone!\r<br />\n<br />\n<br />\nAlso if is possible to input circuit scheme  and iff so how are the syntax files?<br />\n",
+    "PostedDate": "2014-03-09T12:47:27.413-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1232525",
+    "ThreadId": "538451",
+    "Html": "./pinocchio-v0.4.exe --qap --dv --file ccompiler/input/build/your_circuit.arith --input your_input_file --mem 4\r<br />\n<br />\nThis command shows all time data such as key generation time and proof generation time etc.\r<br />\n<br />\n./pinocchio-v0.4.exe --unit --dv --file ccompiler/input/build/your_circuit.arith --input your_input_file --output your_output_file\r<br />\n<br />\nThis command generates the output file.\r<br />\n<br />\nYou can choose from qap or qsp, dv or pv etc. as listed in the help manual.\r<br />\n<br />\nIn the input file, list all wireID wirevalue of inputs in order in hex value, and a const-1 input wire at the end.\r<br />\ne.g struct input{ a[2];} and let a[0]=10, a[1]=11, then the input file is\r<br />\n<br />\n0 a\r<br />\n1 b\r<br />\n2 1<br />\n",
+    "PostedDate": "2014-04-09T12:49:24.45-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

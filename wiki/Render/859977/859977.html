@@ -1,0 +1,8 @@
+<div class="wikidoc">1. Some operators are not usable: ++, &gt;&gt;=<br />2. No typedef<br />3. No empty statements {} or ;<br />4. Nested scope operators are parsed incorrectly:<br /><br /><pre>
+    for (k = 0; k &lt; 10; k+=1) {
+        for (j = 0; j &lt; 5; j+=1) {
+             u32 k = input[j];   // This definition of k will conflicts with the k in the outer scope above 
+             output[j] += k;
+        }
+    } 
+</pre><br />      </div><div class="ClearBoth"></div>

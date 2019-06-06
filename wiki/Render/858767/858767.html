@@ -1,0 +1,36 @@
+<div class="wikidoc"><h2>Notes for getting started</h2>The first goal is to be able to build and run the examples included in the Pinocchio distribution. We&#39;ll start with the matrix example.<br /> <br />In order to build the matrix example, we had to make the following changes:  <br />1. <span class="codeInline">eq-test.c</span> needs to be removed from <span class="codeInline">../common/App.py</span><br />2. If compiling on a 64-bit machine, then <span class="codeInline">make.in</span> and <span class="codeInline">src/build_test_matrix.py</span> must be changed to use 32-bit gcc. Add <span class="codeInline">&quot;gcc ... -m32 ...&quot;</span> to these files every &#39;gcc&#39; shows up. <br />3. Run <span class="codeInline">../src/build-test-matrix.py</span> from <span class="codeInline">PWD=pinocchio/compiler/input</span><br />
+<h3>Example command for compiling C to a circuit (also see the makefiles)</h3>  python ~/v0.4/ccompiler/src/vercomp.py test/lh<i>test.c --il test/build/lh</i>test.c.il --arith test/build/lh_test.c.p.arith --ignore-overflow False --progress True<br />
+<h3>Example of compiling a circuit to a SNARK, constructing a proof, verifying a proof</h3><span class="codeInline">./pinocchio-v0.4.exe --qap --dv --file ccompiler/input/build/your_circuit.arith --input your_input_file --mem 4 </span><br />This command shows all time data such as key generation time and proof generation time etc. <br /><br /><span class="codeInline"> ./pinocchio-v0.4.exe --unit --dv --file ccompiler/input/build/your_circuit.arith --input your_input_file --output your_output_file </span><br /><br />This command generates the output file. <br /><br />You can choose from qap or qsp, dv or pv etc. as listed in the help manual. <br /><br />In the input file, list all wireID wirevalue of inputs in order in hex value, and a const-1 input wire at the end. <br />e.g <span class="codeInline"> struct input{ a[2];} </span> and let <span class="codeInline"> a[0]=10 </span>, <span class="codeInline"> a[1]=11 </span>, then the input file is <br /><br />0 a <br />1 b <br />2 1<br />
+<h2>Dependencies</h2><ul><li>Python
+<ul><li>the &quot;pycparser&quot; parser library must be instaled</li></ul></li>
+<li>Windows/Cygwin: 
+<ul><li>Install 64-bit cygwin as well as python 2.7 and 32-bit toolchain packages Cygwin32-*</li>
+<li>Add &quot;CC=i686-PC-cygwin-gcc.exe&quot; to the makefile</li>
+<li>Remove the <span class="codeInline">matrix-test</span> file (or run <span class="codeInline">make clean</span>?)</li></ul></li></ul>
+
+<h2>General Tips from James Litton</h2>
+You should read the paper and any documentation included in Pinocchio<br />itself. It is sparse, but details a few things like a few of the limits<br />of the compiler and its entry and exit points. Also, Pinocchio was a<br />work in progress.<br /><br />When I ran it, it was a two-step process.<br /><br />You took your C program and generated a circuit.<br /><br />Once you have a circuit (it can be tricky to write a C program that can<br />compile to a circuit), you can use that as input to the compiler. In<br />their source code they have some make files. I think you had to<br />run <span class="codeInline">/ccompiler/src/build-test-matrix</span> and then there are makefiles<br />in <span class="codeInline">/ccompiler/input</span>.<br /><br /><span class="codeInline">Vercomp.py</span> is the program that takes a C program and generates a<br />circuit.  At the time I was working on it, the Pinocchio executable<br />itself was called <span class="codeInline">pinocchio-v0.4</span>. They both take arguments. The<br />Pinocchio executable has a help string which is, well, helpful. For the<br /><span class="codeInline">vercomp.py</span> one, look at the makefiles and its source code.<br /><br />In terms of development environment the python code can be run on linux.<br />On Windows I used Cygwin for all of this stuff. Make sure you use the 64<br />bit version of Cygwin though because Pinocchio needs a lot of<br />addressable memory.<br />
+<h3>Providing Input </h3>
+Input is provided by a file where each consecutive integer is provided<br />on a newline with the value in hex, like so:<br /><br />0 0xa5c<br />1 0x3a7<br />2 0xb3b<br />3 0x8ed<br /><br />I believe the output file is given as an option for <span class="codeInline">Pinocchio.exe</span> and is<br />provided in the same format. These are to correspond to the ‘wire<br />values.’<br />
+<h3>Unsupported arithmetic operations</h3>
+I don’t believe Pinocchio supports division or modulo operators. It has<br />addition, subtraction, and bit operations (if I remember correctly). For<br />some values, division or modulo operations can be done with these<br />operations trivially (e.g., <span class="codeInline">x % 8 == x &amp; 7</span>). Multiplication of any two<br />integers can be done with just bit operators and addition. <br />
+<h3>Accessing non-constant indices</h3>Accessing non-constant indices is tricky. Technically pinocchio does not allow you to access elements in an array without a non-constant index.<br /><pre>
+#define ARRAY_SIZE 10
+int x[ARRAY_SIZE];
+// This fails in pinocchio
+int readX(int i) {
+   return x[i];
+}
+</pre> <br />However, you can accomplish effectively the same thing by &quot;multiplexing:&quot;<br /><pre>
+int readX_multiplexed(int i) {
+   int j, result;
+   for (j = 0; j &lt; ARRAY_SIZE; j++) {
+      int t = x[j]; // This is OK since j is constant when the loop is unrolled
+      if (j == i) result = t;
+   }
+   return result;
+}
+</pre><br /><br />I think the trick was something like<br />accessing all elements in the array but then not making use of the<br />values for all of them, but it was problematic.<br />
+<h3>Specifying bit width</h3>It&#39;s often useful (for efficiency) to perform arithmetic operations (+,*, etc) on full-size 254-bit values (the size of the native group elements). By default, pinocchio matches the semantics of 32-bit and truncates results if they&#39;re larger than this. The command line option<br /><pre>
+    vercomp.py ... --bit-width 254
+</pre><br />makes arithmetic operation use the full size (smaller bit widths are possible too, larger ones are not)</div><div class="ClearBoth"></div>

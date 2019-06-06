@@ -1,0 +1,42 @@
+[
+  {
+    "Id": "1416512",
+    "ThreadId": "632044",
+    "Html": "in the paper, the calculated result y is an input for verification, but it seems to me the verification procedure does not use the calculated result y. can some one elaborate it for me? any help is appreciated. <br />\n",
+    "PostedDate": "2015-04-21T21:33:48.583-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1416877",
+    "ThreadId": "632044",
+    "Html": "Where are you looking in the code?  In QAP::verify, both the call to computeDVio and to computePVio operate on the circuit inputs and the outputs.<br />\n",
+    "PostedDate": "2015-04-22T09:29:07.323-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1417018",
+    "ThreadId": "632044",
+    "Html": "I was talking about the paper.\r<br />\nIt seems to me the calculated result y is not used in the verification procedure.\r<br />\nI am not sure whether I understand it.\r<br />\n<br />\nthanks.<br />\n",
+    "PostedDate": "2015-04-22T22:08:18.577-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1417149",
+    "ThreadId": "632044",
+    "Html": "The result, y, is part of the IO, which is included in the g_v^{v_io(s)} term, as well as the corresponding w and y terms, in the divisibility check (the first bullet under the Verify algorithm).<br />\n",
+    "PostedDate": "2015-04-23T09:13:43.753-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1417170",
+    "ThreadId": "632044",
+    "Html": "thank you! I did not read the text carefully. it does says &quot;the I/O, u and y, by representing them as coefficients c1, ..., cN&quot;,\r<br />\nfor which I have to thank fkraiem who told me that in\r<br />\n <a href=\"http://crypto.stackexchange.com/questions/25145/verification-of-pinocchio-verifiable-computation\" rel=\"nofollow\">http://crypto.stackexchange.com/questions/25145/verification-of-pinocchio-verifiable-computation</a><br />\n",
+    "PostedDate": "2015-04-23T11:32:10.753-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "Id": "1472143",
+    "ThreadId": "654222",
+    "Html": "Hi, I am doing Master program, and I need Pinocchio for my work\r<br />\nI set in App.py (to use polynomial, one-matrix and two-matrix), then I run &quot;build-test-matrix.py&quot;, this worked fine, and  &quot;make -f make.matrix&quot; but this command shows errors:\r<br />\n<br />\n/tmp/ccwv9ni4.s: Assembler messages:\r<br />\n/tmp/ccwv9ni4.s:145: Error: operand type mismatch for <code>push'\r<br />/tmp/ccwv9ni4.s:145: Error: operand type mismatch for</code>pop'\r<br />\nmake.matrix:21: recipe for target 'build/qsp-test-two-matrix-p0.o' failed\r<br />\nmake: *** [build/qsp-test-two-matrix-p0.o] Error 1\r<br />\n<br />\nCan you help me on this?\r<br />\nThank you<br />\n",
+    "PostedDate": "2016-05-02T01:35:04.203-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472246",
+    "ThreadId": "654222",
+    "Html": "Can you provide more context for your output?  Or for your build environment in general?  When I run make, I get:<br />\n<pre><code>code/ccompiler/input$ make\nmkdir build\ngcc -o build/make-random-header make-random-header.c\nbuild/make-random-header build/random-header-4-28.h 4 28\npython ../src/vercomp.py one-matrix.c --arith build/one-matrix-p0-b110.arith --bit-width 110 --cpparg _Ibuild/ _DPARAM=0 _DBIT_WIDTH=110 _include build/random-header-4-28.h --ignore-overflow True\n...</code></pre>\n\nAt a guess, it sounds like there's a problem with your standard C compiler.  We used gcc, so you may see different results with other compilers.  You may also need to tailor the GetRDTSC call in qsp-test.c for your particular platform.<br />\n",
+    "PostedDate": "2016-05-02T20:19:10.813-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472282",
+    "ThreadId": "654222",
+    "Html": "Thank you for your response<br />\nI am using Cygwin64, run on Windows 10 Pro. I also installed cygwin32 toolchains as required.<br />\nIn  App.py, I set to use one-matrix and polynomial, so It would be as follow:<br />\n<pre><code>@classmethod\n  def defaultApps(cls):\n    apps = [#App(&quot;factorial&quot;),\n      #App(&quot;two-matrix&quot;, ignore_overflow=True),\n      App(&quot;one-matrix&quot;, ignore_overflow=True),\n      #App(&quot;eqtest&quot;)\n      App(&quot;polynomial&quot;, ignore_overflow=True)\n      #App(&quot;image-kernel&quot;),\n      #App(&quot;floyd&quot;),\n      #App(&quot;lgca&quot;, bitwidths=[32]),\n      #App(&quot;sha&quot;, params=[0], bitwidths=[32], cached_construction=True),\n      #App(&quot;sha&quot;, params=[1], bitwidths=[32], cached_construction=True),\n      ]\n    return apps</code></pre>\n\nThen, I run ../ccompiler/src/build-test-matrix.py from ../ccompiler/input/. This worked fine !<br />\nAfter that, I run &quot;make -f make.matrix&quot; in ../ccompiler/input, but I got the errors<br />\n<pre><code>\ngcc -m32 -g -I../../common -Ibuild/ -o build/one-matrix-p0-b32 build/one-matrix-                                         p0-b32-native.o build/one-matrix-p0-b32-test.o build/qsp-test-one-matrix-p0.o bu                                         ild/wire-io.o build/print-matrix.o\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc_s.dll.a when searchin                                         g for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc_s.dll.a when searching                                          for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc_s.dll.a when searchin                                         g for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc_s.dll.a when searching                                          for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc.a when searching for                                          -lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc.a when searching for                                          -lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc.a when searching for -                                         lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc.a when searching for -                                         lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc.a when searching for                                          -lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc.a when searching for -                                         lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -lcygwin\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libadvapi32.a when searching for -ladvapi32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libadvapi32.a when searching for -ladvapi32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libadvapi32.a when searching for -ladvapi32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -ladvapi32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libshell32.a when searching for -lshell32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libshell32.a when searching for -lshell32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libshell32.a when searching for -lshell32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -lshell32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libuser32.a when searching for -luser32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libuser32.a when searching for -luser32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libuser32.a when searching for -luser32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -luser32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libkernel32.a when searching for -lkernel32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libkernel32.a when searching for -lkernel32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/w32api/libkernel32.a when searching for -lkernel32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -lkernel32\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc_s.dll.a when searchin                                         g for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc_s.dll.a when searching                                          for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc_s.dll.a when searchin                                         g for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc_s.dll.a when searching                                          for -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -lgcc_s\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc.a when searching for                                          -lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc.a when searching for                                          -lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc.a when searching for -                                         lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc.a when searching for -                                         lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0//libgcc.a when searching for                                          -lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: skippin                                         g incompatible /usr/lib/gcc/x86_64-pc-cygwin/5.3.0/libgcc.a when searching for -                                         lgcc\n/usr/lib/gcc/x86_64-pc-cygwin/5.3.0/../../../../x86_64-pc-cygwin/bin/ld: cannot                                          find -lgcc\ncollect2: error: ld returned 1 exit status\nmake.matrix:29: recipe for target 'build/one-matrix-p0-b32' failed\nmake: *** [build/one-matrix-p0-b32] Error 1</code></pre>\n\nBecause I run on 64-bit machine, so I put -m32 after all gcc in make.in and src/build-test-matrix.py<br />\n",
+    "PostedDate": "2016-05-03T06:07:51.193-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472283",
+    "ThreadId": "654222",
+    "Html": "I do as instructed in <a href=\"https://vc.codeplex.com/wikipage?title=UMD%20Notes&amp;referringTitle=Documentation\" rel=\"nofollow\">this</a><br />\n<br />\nHope to see your reply<br />\n",
+    "PostedDate": "2016-05-03T06:14:52.047-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472362",
+    "ThreadId": "654222",
+    "Html": "I'd suggest you start by running things using the 32-bit version of Cygwin, rather than 64-bit.  There seems to be a problem with your 64-bit installation, as the lines you show above all mention x86_64-pc-cygwin, which I believe is the 64-bit toolchain, not the 32-bit.  This step isn't really PInocchio specific.  It's just trying to run gcc on some fairly generic C code.  If you get to the point where you can do that in your Cygwin environment, then I would expect this step to work as well.  This step is also just for the purposes of compiling the native version for performance comparison purposes.  If you aren't interested in that, you could just comment out this step, so the cryptographic portions can run.<br />\n",
+    "PostedDate": "2016-05-03T22:16:32.613-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472442",
+    "ThreadId": "654222",
+    "Html": "Thank you for your support\r<br />\nI managed to run it under Ubuntu 16.04\r<br />\n<br />\nBest reagards<br />\n",
+    "PostedDate": "2016-05-04T11:25:29.113-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472498",
+    "ThreadId": "654222",
+    "Html": "Great, glad to hear it!  If you had to take any special steps, please feel free to post them here, so others can learn from your experience.<br />\n",
+    "PostedDate": "2016-05-04T21:06:45.38-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472851",
+    "ThreadId": "654222",
+    "Html": "I have another question.\r<br />\nAbout the one-matrix, as I compiled it into circuit, the values of matrix is fixed to [[2,2],[1,0]] (denoted in one-matrix,c,p). Is there any way to modify these values?\r<br />\nSame question for polynomial<br />\n",
+    "PostedDate": "2016-05-09T05:49:08.093-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1472869",
+    "ThreadId": "654222",
+    "Html": "If you'd like a larger matrix, you can adjust the params setting in common/App.py, or you can directly change the values in one-matrix-ifc.h.  The actual values in the matrix are chosen at random by running make-random-header.exe.  The random header shows up in the build/ directory.  If you want specific values, you can edit it there and then rebuild the circuit.<br />\n",
+    "PostedDate": "2016-05-09T09:06:17.917-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1473386",
+    "ThreadId": "654222",
+    "Html": "Hi,\r<br />\nIs pinocchio-v0.5.3 the latest version you got? Because when I generate a polynomial with a degree of 100, I used the command <br />\n<pre><code>./pinocchio-v0.5.3.exe --qap --dv --file poly-100.arith --input poly-input.txt --output output --mem 4 --keys key --verify</code></pre>\n\nbut it still gives me a segmentation fault<br />\n",
+    "PostedDate": "2016-05-13T10:16:01.147-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1473409",
+    "ThreadId": "654222",
+    "Html": "How many variables did you use for your polynomial?  With k variables, and degree d, you're going to end up creating (d+1)^k terms.  If you use more than 3 I suspect you're going to run into memory problems, which might result in a segmentation fault.  I might suggest confirming that you can run with smaller settings before ramping up to larger ones.<br />\n",
+    "PostedDate": "2016-05-13T15:22:06.3-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1473441",
+    "ThreadId": "654222",
+    "Html": "I only use 1 variable<br />\nand also, it seems the degree of 1000000 does not work properly? I tried but it did not generate me a circuit<br />\n",
+    "PostedDate": "2016-05-14T04:39:55.26-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1473783",
+    "ThreadId": "654222",
+    "Html": "In <code>common/App.py</code>, I have:<br />\n<pre><code>if (params==None): params = [0]</code></pre>\n\nand <br />\n<pre><code>App(&quot;polynomial&quot;, ignore_overflow=True)</code></pre>\n\nuncommented.  In <code>polynomial-ifc.h</code>, I have: <br />\n<pre><code>       #if PARAM==0\n        #define DEGREE          100\n        #define VARIABLES       1\n        #define COEFFICIENTS 101    </code></pre>\n\nIn <code>code/ccompiler/input</code>, I run: <br />\n<pre><code>../src/build-test-matrix.py</code></pre>\n\nRunning:\t<br />\n<pre><code>pinocchio-v0.5.3.exe --qap --dv --file build/polynomial-p0-b32.arith --input build/poly-input.txt --output build/poly-output.txt --mem 4  --bits 32</code></pre>\n\nsucceeds.\r<br />\n<br />\nDoes that match what you've done?  If not, you may want to adjust accordingly.  In general, I'd recommend starting out with small existing examples and then gradually changing them and scaling them up.<br />\n",
+    "PostedDate": "2016-05-17T20:24:43.003-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1473913",
+    "ThreadId": "654222",
+    "Html": "I can run this as well, but the point is --verify option, as mentioned in the discussion of azerty123<br />\n",
+    "PostedDate": "2016-05-19T04:55:31.273-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]

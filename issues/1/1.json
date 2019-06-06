@@ -1,0 +1,65 @@
+{
+  "WorkItem": {
+    "AffectedComponent": {
+      "Name": "",
+      "DisplayName": ""
+    },
+    "ClosedComment": "",
+    "ClosedDate": "2016-05-03T22:12:42.62-07:00",
+    "CommentCount": 5,
+    "Custom": null,
+    "Description": "It is mentioned in the README, but it is not there",
+    "LastUpdatedDate": "2016-05-03T22:12:42.62-07:00",
+    "PlannedForRelease": "",
+    "ReleaseVisibleToPublic": false,
+    "Priority": {
+      "Name": "Unassigned",
+      "Severity": 0,
+      "Id": 0
+    },
+    "ProjectName": "vc",
+    "ReportedDate": "2016-02-27T06:51:24.123-08:00",
+    "Status": {
+      "Name": "Closed",
+      "Id": 4
+    },
+    "ReasonClosed": {
+      "Name": "Fixed"
+    },
+    "Summary": "make.matrix missing",
+    "Type": {
+      "Name": "Unassigned",
+      "Id": 5
+    },
+    "VoteCount": 1,
+    "Id": 1
+  },
+  "FileAttachments": [],
+  "Comments": [
+    {
+      "Message": "Sorry, it is in ccompiler/src",
+      "PostedDate": "2016-02-27T06:55:16.673-08:00",
+      "Id": 197007
+    },
+    {
+      "Message": "But I am missing eqtest.c. Here is how I try to use vc:\n\nwget \"http://download-codeplex.sec.s-msft.com/Download/SourceControlFileDownload.ashx?ProjectName=vc&changeSetId=50564a8aa835fd3cccef428944979eba3681c7ef\"\nunzip Source*\ncd pinocchio/ccompiler/external-code\nmake\ncd ../input\nPYTHONPATH=../../common python ../src/build-test-matrix.py\n\nThen I get\n\ngcc: error: eqtest.c: No such file or directory\ngcc: fatal error: no input files\ncompilation terminated.",
+      "PostedDate": "2016-02-27T06:59:58.347-08:00",
+      "Id": 197008
+    },
+    {
+      "Message": "If I adjust App.py to use floyd instead of eqtest, I get:\n\n % make -f make.matrix \ngcc -g -I../../common -Ibuild/ -c -o build/qsp-test-floyd-p0.o qsp-test.c -DPARAM=0\nqsp-test.c: In function ‘qsp_outsource’:\nqsp-test.c:226:3: warning: implicit declaration of function ‘outsource’ [-Wimplicit-function-declaration]\n   outsource(in, out);\n   ^\nqsp-test.c:230:3: warning: implicit declaration of function ‘outsource_reference’ [-Wimplicit-function-declaration]\n   outsource_reference(in, out);\n   ^\nqsp-test.c:235:45: warning: implicit declaration of function ‘test_name’ [-Wimplicit-function-declaration]\n   snprintf(ifn, sizeof(ifn), \"build/%s.in\", test_name());\n                                             ^\nqsp-test.c:235:30: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘int’ [-Wformat=]\n   snprintf(ifn, sizeof(ifn), \"build/%s.in\", test_name());\n                              ^\nqsp-test.c:235:30: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘int’ [-Wformat=]\nqsp-test.c:238:30: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘int’ [-Wformat=]\n   snprintf(ofn, sizeof(ofn), \"build/%s.out\", test_name());\n                              ^\nqsp-test.c:238:30: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘int’ [-Wformat=]\nqsp-test.c:255:41: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘int’ [-Wformat=]\n    snprintf(basefile, sizeof(basefile), \"build/%s-p%d-b%d\", test_name(), PARAM, testmode.arith_bit_width);\n                                         ^\nqsp-test.c:255:41: warning: format ‘%s’ expects argument of type ‘char *’, but argument 4 has type ‘int’ [-Wformat=]\nqsp-test.c:313:3: warning: implicit declaration of function ‘print_output’ [-Wimplicit-function-declaration]\n   print_output(resultbuf, sizeof(resultbuf), out);\n   ^\nqsp-test.c: In function ‘main’:\nqsp-test.c:418:3: warning: implicit declaration of function ‘rand_core’ [-Wimplicit-function-declaration]\n   rand_core(testmode.iters);\n   ^\nqsp-test.c:426:25: warning: implicit declaration of function ‘test_core’ [-Wimplicit-function-declaration]\n     result_experiment = test_core(iter);\n                         ^\nqsp-test.c: Assembler messages:\nqsp-test.c:66: Error: operand type mismatch for `push'\nqsp-test.c:66: Error: operand type mismatch for `pop'\nmake.matrix:15: recipe for target 'build/qsp-test-floyd-p0.o' failed\nmake: *** [build/qsp-test-floyd-p0.o] Error 1\n",
+      "PostedDate": "2016-02-27T07:07:56.643-08:00",
+      "Id": 197009
+    },
+    {
+      "Message": "It seems that compilation works if I use -m32. Is this broken on 64-bit machines per design?",
+      "PostedDate": "2016-02-27T12:08:18.14-08:00",
+      "Id": 197010
+    },
+    {
+      "Message": "Thanks for reporting the missing eqtest.  I just pushed it to save future users from running into that problem.  In general, Pinocchio should work on 64-bit machines.  We did a lot of the tests with 32-bit Cygwin, which may explain why you're seeing the compilation problem but we didn't.  The file qsp-test.c is what runs the native version of the program, so technically you don't need it if  you just want to run verified computations.",
+      "PostedDate": "2016-03-06T15:55:12.61-08:00",
+      "Id": 197232
+    }
+  ]
+}

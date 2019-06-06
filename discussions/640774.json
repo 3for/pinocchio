@@ -1,0 +1,58 @@
+[
+  {
+    "Id": "1432629",
+    "ThreadId": "640774",
+    "Html": "hello,\r<br />\nI am doing my masters I would really love to use Pinocchio in it. I tried the basic functions and it worked nicely but when I tried the nizk example I got some errors.\r<br />\nWhat I did:\r<br />\ngenerated circuits from c:<br />\n<pre><code>  python $PINOCCHIO/ccompiler/src/vercomp.py nizk-test.c --arith nizk-test.c.arith --ignore-overflow False --progress True</code></pre>\n\nit created circuit:<br />\n<pre><code>total 13\ninput 0                                  # input\ninput 1                                  # one-input\nnizkinput 2                              # input\nnizkinput 3                              # input (unused)\nnizkinput 4                              # input\nnizkinput 5                              # input (unused)\nconst-mul-0 in 1 &lt;1&gt; out 1 &lt;6&gt;           # zero\nadd in 2 &lt;0 2&gt; out 1 &lt;7&gt;                 # ArithBusReq.AddReq(DFG.Input,DFG.NIZKInput)\nconst-mul-0 in 1 &lt;1&gt; out 1 &lt;8&gt;           # constant 0\nadd in 2 &lt;0 4&gt; out 1 &lt;9&gt;                 # ArithBusReq.AddReq(DFG.Input,DFG.NIZKInput)\nmul in 2 &lt;1 7&gt; out 1 &lt;10&gt;                # output-cast\noutput 10                                #\nmul in 2 &lt;1 8&gt; out 1 &lt;11&gt;                # output-cast\noutput 11                                #\nmul in 2 &lt;1 9&gt; out 1 &lt;12&gt;                # output-cast\noutput 12                                #</code></pre>\n\nthen I tried to genkeys, dowork and verify but it failed with segfault at dowork\r<br />\ncommands I used:<br />\n<pre><code>$PINOCCHIO/pinocchio-v0.5.2.exe --qap --pv --nizk --file test-nizk.c.arith --mem 4 --input test-nizk.input.txt --output test-nizk.output.txt --keys test-nizk-key --genkeys\n$PINOCCHIO/pinocchio-v0.5.2.exe --qap --pv --nizk --file test-nizk.c.arith --mem 4 --input test-nizk.input.txt --output test-nizk.output.txt --keys test-nizk-key --dowork</code></pre>\n\nthe input file is:<br />\n<pre><code>0 5\n1 1\n2 1\n3 2\n4 3\n5 4</code></pre>\n\nand the output I got:<br />\n<pre><code>------------------------\ngen keys\n------------------------\nWarning: Could not open config file: config.txt.  Continuing based on command line only.\n\nUsing the NEW crypto protocol!\nUsing circuit from file build/nizk-test.c.arith\nV + W + Y: 3360 Bytes\nTargetRoots ~= 96 bytes\nBuilding a QAP with size 9 and degree 3\nBuilt the QAP. Cleaning up construction debris.\n1 of 10 polynomials (10.00%) are non-zero at both V and W\n\nPublic verification\nChose h=v=7 for preallocation optimization\nSize of precomputed table = 7 x 128 = 896 {L,R}EncodedElts = 0.2 MB\n\nDone!\n------------------------\ndo work\n------------------------\nWarning: Could not open config file: config.txt.  Continuing based on command line only.\n\nUsing the NEW crypto protocol!\nUsing circuit from file build/nizk-test.c.arith\nReading wire values from file: nizk-test.input.txt\nV + W + Y: 3360 Bytes\nTargetRoots ~= 96 bytes\nBuilding a QAP with size 9 and degree 3\nBuilt the QAP. Cleaning up construction debris.\nSegmantation fault</code></pre>\n\nI tried the same without the --nizk parameter, it worked but the verification failed.\r<br />\n<br />\nHow can I make it work? \r<br />\n<br />\nThanks!<br />\n",
+    "PostedDate": "2015-06-30T11:03:21.107-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1432898",
+    "ThreadId": "640774",
+    "Html": "Hi,\r<br />\n<br />\nIt looks like there was a bug in the way the verification-only mode handled the inputs.  I've fixed it and pushed an updated version to Codeplex.  In general, if you only need performance measurements, I'd suggest running the one-pass version, i.e., something like:<br />\n<pre><code>$PINOCCHIO/pinocchio-v0.5.3.exe --qap --pv --nizk --file test-nizk.c.arith --mem 4 --input test-nizk.input.txt --output test-nizk.output.txt</code></pre>\n\nThat will read in the circuit, generate keys, compute the proof, and verify it all at the same time.  That mode has been more thoroughly tested than the various standalone modes (i.e., the --genkeys, --dowork, and --verify modes).<br />\n\r<br />\nGood luck with your masters work.\r<br />\n<br />\n-Bryan<br />\n",
+    "PostedDate": "2015-07-02T09:35:52.06-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1432938",
+    "ThreadId": "640774",
+    "Html": "Hi Bryan,\r<br />\n<br />\nthanks a lot, it works really nice now!\r<br />\n<br />\nI rather want to use Pinocchio as a framework for proving in ZK statements such as &quot;I know x s.t SHA(x) = h&quot; where h is public and x is private as a part of bigger protocol. Also I will need to perform some other steps in between genkeys, dowork and verify so I need them seperate.\r<br />\n<br />\nOnce more thank you, Pinocchio is great,\r<br />\n-Wac<br />\n",
+    "PostedDate": "2015-07-02T15:40:30.583-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1432960",
+    "ThreadId": "640774",
+    "Html": "Great, glad to hear it's working for you!  FWIW, when running with complex circuits like that for SHA, you may want to try using the --pcache option if QAP generation takes too long.\r<br />\n<br />\nCheers,\r<br />\n-Bryan<br />\n",
+    "PostedDate": "2015-07-02T20:46:49.587-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1433246",
+    "ThreadId": "640774",
+    "Html": "OK, thanks, I'll try that\r<br />\nCheers,\r<br />\n-Wac<br />\n",
+    "PostedDate": "2015-07-06T08:09:28.933-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1433276",
+    "ThreadId": "640774",
+    "Html": "Hey, I've got another question. \r<br />\nI tried to implement a BigNum class together with some operations on it. It works fine when compiled with gcc but when I try to compile it to arithetic circuit with vercomp.py a assertion fails. \r<br />\n<br />\nCould you have a look at it? I am almost sure it doesn't violate any Pinocchio's restrictions on C. \r<br />\nThe code is pretty simple, it adds two BigNums, each BigNum is an array of unsigneds, I treat it like bit-array and implement addition myself without the built-in addition.\r<br />\n<br />\nbignum.h:<br />\n<pre><code>#ifndef _BIGNUM_H_\n#define _BIGNUM_H_\n\n#define u32 unsigned int\n\n#define BITS 1024\n#define GROUPS BITS/32\n\nstruct BigNum {\n    u32 bits[GROUPS];\n};\n\nvoid add(struct BigNum *, struct BigNum *, struct BigNum *);\n\nstruct Input {\n    u32 empty;\n};\n\nstruct NIZKInput {\n    struct BigNum x;\n    struct BigNum y;\n};\n\nstruct Output {\n    struct BigNum z;\n};\n\nvoid outsource(struct Input *input, struct NIZKInput *nizkinput, struct Output *output);\n#endif\n</code></pre>\n\nbignum.c:<br />\n<pre><code>#include &quot;bignum.h&quot;\n\nvoid add(struct BigNum *res, struct BigNum *x, struct BigNum *y){\n    int g, i;\n    int carry;\n\n    carry = 0;\n    for(g = 0; g &lt; GROUPS; g += 1){\n        res-&gt;bits[g] = 0;\n        for(i = 0; i &lt; 32; i += 1){\n            if (x-&gt;bits[g] &amp; (1&lt;&lt;i))\n                carry += 1;\n            if (y-&gt;bits[g] &amp; (1&lt;&lt;i))\n                carry += 1;\n            if (carry &amp; 1)\n                res-&gt;bits[g] |= (1&lt;&lt;i);\n            if (carry &amp; 2)\n                carry = 1;\n            else\n                carry = 0;\n        }\n    }\n}\n\nvoid outsource(struct Input *input, struct NIZKInput *nizkinput, struct Output *output) {\n    add(&amp;output-&gt;z, &amp;nizkinput-&gt;x, &amp;nizkinput-&gt;y);\n}</code></pre>\n\nAnd it fails with:<br />\n<pre><code>Traceback (most recent call last):\n  File &quot;pinocchio/ccompiler/src/vercomp.py&quot;, line 1184, in &lt;module&gt;\n    main(sys.argv[1:])\n  File &quot;pinocchio/ccompiler/src/vercomp.py&quot;, line 1169, in main\n    ArithFactory(args.arith_file, vercomp.inputs, vercomp.nizk_inputs, vercomp.output, vercomp.bit_width)\n  File &quot;pinocchio/ccompiler/src/ArithFactory.py&quot;, line 8, in __init__\n    ReqFactory.__init__(self, output_filename, circuit_inputs, circuit_nizk_inputs, circuit_outputs, bit_width)\n  File &quot;pinocchio/ccompiler/src/ReqFactory.py&quot;, line 27, in __init__\n    self.process_outputs(circuit_outputs)\n  File &quot;pinocchio/ccompiler/src/ReqFactory.py&quot;, line 70, in process_outputs\n    self.make_req(expr, self.type()))\n  File &quot;pinocchio/ccompiler/src/Collapser.py&quot;, line 60, in collapse_tree\n    self.table[key] = self.collapse_impl(key)\n  File &quot;pinocchio/ccompiler/src/ReqFactory.py&quot;, line 121, in collapse_impl\n    bus = key.collapse_impl()\n  File &quot;pinocchio/ccompiler/src/BusReq.py&quot;, line 69, in collapse_impl\n    return self.reqfactory.collapse_req(self)\n  File &quot;pinocchio/ccompiler/src/ArithFactory.py&quot;, line 62, in collapse_req\n    return req.natural_impl()\n  File &quot;pinocchio/ccompiler/src/ArithBusReq.py&quot;, line 112, in natural_impl\n    self.board(), buscond, bustrue, busfalse)\n  File &quot;pinocchio/ccompiler/src/ArithBuses.py&quot;, line 187, in __init__\n    assert(buscond.get_trace_count()==1)\nAssertionError</code></pre>\n\nThanks!<br />\n",
+    "PostedDate": "2015-07-06T12:01:50.277-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  },
+  {
+    "Id": "1434324",
+    "ThreadId": "640774",
+    "Html": "hey,\r<br />\nI found a way to do it. The error was in the if statements.\r<br />\nHere is the code that works if anyone needs it:<br />\n<pre><code>\nvoid add(struct BigNum *res, struct BigNum *x, struct BigNum *y){\n    u32 g, i;\n    u32 carry;\n\n    carry = 0;\n    for(g = 0; g &lt; GROUPS; g += 1){\n        res-&gt;bits[g] = 0;\n        for(i = 0; i &lt; 32; i += 1){\n            if ((x-&gt;bits[g] &amp; (1&lt;&lt;i)) == (1&lt;&lt;i))\n                carry += 1;\n            if ((y-&gt;bits[g] &amp; (1&lt;&lt;i)) == (1&lt;&lt;i))\n                carry += 1;\n            if ((carry &amp; 1) == 1)\n                res-&gt;bits[g] |= (1&lt;&lt;i);\n            if ((carry &amp; 2) == 2)\n                carry = 1;\n            else\n                carry = 0;\n        }\n    }\n}</code></pre>\n\nCheers,\r<br />\n-Wac<br />\n",
+    "PostedDate": "2015-07-14T07:00:53.133-07:00",
+    "UserRole": null,
+    "MarkedAsAnswerDate": null
+  }
+]
